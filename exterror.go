@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-type ExtendedError struct {
+type Error struct {
 	Num           int64
 	Filename      string
 	CallingMethod string
@@ -21,8 +21,8 @@ type ExtendedError struct {
 	StackTrace    string
 }
 
-func New(num int64, endUserMsg string, parentErr error) *ExtendedError {
-	e := new(ExtendedError)
+func New(num int64, endUserMsg string, parentErr error) *Error {
+	e := new(Error)
 	e.Num = num
 	e.EndUserMsg = endUserMsg
 	e.Err = parentErr
@@ -48,11 +48,11 @@ func New(num int64, endUserMsg string, parentErr error) *ExtendedError {
 	return e
 }
 
-func (e *ExtendedError) AddDebugField(key string, value interface{}) {
+func (e *Error) AddDebugField(key string, value interface{}) {
 	e.DebugFields[key] = value
 }
 
-func (e *ExtendedError) Error() string {
+func (e *Error) Error() string {
 	parentError := "nil"
 	if e.Err != nil {
 		parentError = prependToLines(e.Err.Error(), "-- ")
@@ -68,7 +68,7 @@ func (e *ExtendedError) Error() string {
 	}
 
 	return fmt.Sprintln(
-		"\n\n-- ExtendedError",
+		"\n\n-- Error",
 		e.Num,
 		e.Filename,
 		e.CallingMethod,
