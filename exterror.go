@@ -1,6 +1,6 @@
 //  Copyright (c) Ken Haigh (http://kenhaigh.com) All Rights Reserved.
 
-package eerr
+package exterror
 
 import (
 	"fmt"
