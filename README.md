@@ -1,7 +1,7 @@
 exterror
 =========
 
-Extending GO's basic error handling by adding additional context and formatting to make debugging easier
+Extending Go's basic error handling by adding additional context and formatting to make debugging easier
 
 Installation
 ------------
@@ -15,10 +15,10 @@ Basic Usage
 	package main
 	
 	import (
-	"os"
+		"os"
 		"strconv"
-	
-	"github.com/khaigh/exterror"
+		
+		"github.com/khaigh/exterror"
 	)
 	
 	func main() {
@@ -85,8 +85,8 @@ If you would like to use a different error format, override the template using t
 The error id makes it easy to do a find.  Line numbers are insufficent when people are making changes to code and you don't know which exact version of the app is generating which stack trace.
 I use this shell command to generate them:
 
-#!/bin/sh
-od -vAn -N4 -tu4 < /dev/urandom | tr -d " \n"
+####!/bin/sh
+	od -vAn -N4 -tu4 < /dev/urandom | tr -d " \n"
 
 Add this command to your favorite editor to generate unique ids.
 
