@@ -25,7 +25,7 @@ type Error struct {
 	DebugFields   map[string]interface{}
 	ParentErr     error
 	StackTrace    string
-	ErrTemplate   *template.Template
+	Template      *template.Template
 }
 
 const templateStr = "ERROR:{{.Filename}}:{{.CallingMethod}}:{{.Line}}: {{.EndUserMsg}}" +
@@ -47,9 +47,9 @@ const templateStr = "ERROR:{{.Filename}}:{{.CallingMethod}}:{{.Line}}: {{.EndUse
 	"{{end}}" +
 	"{{end}}"
 
-var defaultErrTemplate = initDefaultErrTemplate()
+var defaultTemplate = initDefaultTemplate()
 
-func initDefaultErrTemplate() *template.Template {
+func initDefaultTemplate() *template.Template {
 	funcMap := template.FuncMap{
 		"trimleft":   func(a string) string { return strings.TrimLeft(a, " ") },
 		"splitLines": func(para string) []string { return strings.Split(para, "\n") },
@@ -121,10 +121,10 @@ func (e *Error) WithDebugMsg(msg string) *Error {
 	return e
 }
 
-// WithErrTemplate allows the caller to change the formatting of an error message
-// For example, exterror.New(1234, "user message", err).WithErrTemplate(mysimpletmpl).AndLog()
-func (e *Error) WithErrTemplate(tmpl *template.Template) *Error {
-	e.ErrTemplate = tmpl
+// WithTemplate allows the caller to change the formatting of an error message
+// For example, exterror.New(1234, "user message", err).WithTemplate(mysimpletmpl).AndLog()
+func (e *Error) WithTemplate(tmpl *template.Template) *Error {
+	e.Template = tmpl
 	return e
 }
 
@@ -133,10 +133,10 @@ func (e *Error) Error() string {
 	var tmpl *template.Template
 	var buf bytes.Buffer
 
-	if e.ErrTemplate != nil {
-		tmpl = e.ErrTemplate
+	if e.Template != nil {
+		tmpl = e.Template
 	} else {
-		tmpl = defaultErrTemplate
+		tmpl = defaultTemplate
 	}
 	err := tmpl.Execute(&buf, e)
 	if err != nil {

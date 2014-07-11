@@ -80,9 +80,9 @@ func TestTemplate(t *testing.T) {
 		t.Error("Error creating template")
 	}
 	_, _, line, _ := runtime.Caller(0)
-	eerr := New(6, "test error #6", nil).WithErrTemplate(tmpl).AndLog()
+	eerr := New(6, "test error #6", nil).WithTemplate(tmpl).AndLog()
 	if eerr.Error() != fmt.Sprintf("Error at exterror_test.go:github.com/khaigh/exterror.TestTemplate:%d: test error #6", line+1) {
-		t.Error("ErrTemplate does not match")
+		t.Error("Template does not match")
 	}
 }
 
@@ -101,7 +101,7 @@ func TestBadTemplate(t *testing.T) {
 			t.Error("Did not throw an exception")
 		}
 	}()
-	eerr := New(6, "test error #7", nil).WithErrTemplate(tmpl)
+	eerr := New(6, "test error #7", nil).WithTemplate(tmpl)
 	eerr.Error()
 	t.Error("Unreachable code")
 }
